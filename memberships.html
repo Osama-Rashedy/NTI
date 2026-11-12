@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Champions Sport Club - Memberships & Payments</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Page Specific CSS -->
+  <link rel="stylesheet" href="memberships.css">
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1090;">
+    <div id="actionToast" class="toast align-items-center text-white border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2">
+          <i id="toastIcon" class="bi bi-check-circle-fill fs-5"></i>
+          <span id="toastMessage">Notification message</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <i class="bi bi-trophy-fill"></i>
+        </div>
+        <div class="brand-info">
+          <h5 class="brand-name">CHAMPIONS</h5>
+          <span class="brand-sub">Sport Club System</span>
+        </div>
+        <button class="btn btn-close-sidebar d-lg-none text-white ms-auto" id="closeSidebarBtn">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-menu-wrapper">
+        <p class="menu-label">MAIN NAVIGATION</p>
+        <ul class="sidebar-menu">
+          <li class="menu-item">
+            <a href="index.html" class="menu-link">
+              <i class="bi bi-grid-1x2-fill"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="members.html" class="menu-link">
+              <i class="bi bi-people-fill"></i>
+              <span>Members</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="activities.html" class="menu-link">
+              <i class="bi bi-dribbble"></i>
+              <span>Sports & Activities</span>
+            </a>
+          </li>
+          <li class="menu-item active">
+            <a href="memberships.html" class="menu-link">
+              <i class="bi bi-credit-card-2-front-fill"></i>
+              <span>Memberships & Payments</span>
+              <span class="badge bg-primary ms-auto">EGP</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="staff.html" class="menu-link">
+              <i class="bi bi-person-badge-fill"></i>
+              <span>Staff & Facilities</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="p-3 mt-4 rounded-3 bg-dark-subtle text-white-50 small border border-secondary border-opacity-25">
+          <strong class="text-white d-block mb-1"><i class="bi bi-shield-check text-success me-1"></i> Egyptian Banking</strong>
+          <span>Visa, Meeza, Fawry, Mastercard & Cash receipts handled in Egyptian Pounds.</span>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-pill d-flex align-items-center gap-3">
+          <div class="avatar-circle">MA</div>
+          <div class="user-details overflow-hidden">
+            <p class="user-name mb-0 text-truncate">Mahmoud Al-Masry</p>
+            <span class="user-role text-truncate">Club General Director</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Sidebar Overlay for mobile -->
+    <div class="sidebar-overlay d-lg-none" id="sidebarOverlay"></div>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+      <!-- Top Header Bar -->
+      <header class="app-header">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-menu-toggle d-lg-none" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+            <i class="bi bi-list fs-4"></i>
+          </button>
+          <div class="page-title-box">
+            <h1 class="page-title mb-0">Memberships & Payments</h1>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="index.html">Champions Club</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Subscriptions & Financial Logs</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+
+        <div class="header-actions d-flex align-items-center gap-2">
+          <!-- Create Subscription Trigger Button -->
+          <button class="btn btn-primary d-flex align-items-center gap-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#subscriptionModal" id="openCreateSubBtn">
+            <i class="bi bi-plus-circle-fill"></i>
+            <span>Create Subscription</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Body -->
+      <div class="app-body">
+        
+        <!-- Financial Overview KPI Cards -->
+        <div class="row g-3 mb-4">
+          <div class="col-xl-3 col-sm-6">
+            <div class="card border-0 shadow-sm p-3 h-100 rounded-3 kpi-sub-card border-start border-4 border-success">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <span class="text-muted small fw-semibold">TOTAL COLLECTED (EGP)</span>
+                  <h3 class="fw-bold mb-0 text-success mt-1" id="kpiTotalRevenue">EGP 0</h3>
+                  <small class="text-muted">Recorded Ledger</small>
+                </div>
+                <div class="kpi-icon-box bg-success-subtle text-success">
+                  <i class="bi bi-cash-coin fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-sm-6">
+            <div class="card border-0 shadow-sm p-3 h-100 rounded-3 kpi-sub-card border-start border-4 border-primary">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <span class="text-muted small fw-semibold">ACTIVE SUBSCRIPTIONS</span>
+                  <h3 class="fw-bold mb-0 text-primary mt-1" id="kpiActiveSubs">0</h3>
+                  <small class="text-success"><i class="bi bi-check-circle"></i> Paid & Current</small>
+                </div>
+                <div class="kpi-icon-box bg-primary-subtle text-primary">
+                  <i class="bi bi-check-all fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-sm-6">
+            <div class="card border-0 shadow-sm p-3 h-100 rounded-3 kpi-sub-card border-start border-4 border-danger">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <span class="text-muted small fw-semibold">EXPIRING / EXPIRED</span>
+                  <h3 class="fw-bold mb-0 text-danger mt-1" id="kpiExpiredSubs">0</h3>
+                  <small class="text-danger"><i class="bi bi-exclamation-circle"></i> Requires Renewal</small>
+                </div>
+                <div class="kpi-icon-box bg-danger-subtle text-danger">
+                  <i class="bi bi-bell-fill fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-sm-6">
+            <div class="card border-0 shadow-sm p-3 h-100 rounded-3 kpi-sub-card border-start border-4 border-warning">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <span class="text-muted small fw-semibold">PAYMENT TRANSACTIONS</span>
+                  <h3 class="fw-bold mb-0 text-dark mt-1" id="kpiTotalTransactions">0</h3>
+                  <small class="text-muted">Invoices & Receipts</small>
+                </div>
+                <div class="kpi-icon-box bg-warning-subtle text-warning">
+                  <i class="bi bi-receipt fs-4"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 1: Active & Expiring Memberships Tracker -->
+        <div class="card border-0 shadow-sm mb-4">
+          <div class="card-header bg-white border-0 py-3 d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div>
+              <h5 class="card-title fw-bold mb-0">Subscription Registry & Renewal Status</h5>
+              <small class="text-muted">Monthly, Quarterly, Annual, and Activity passes</small>
+            </div>
+
+            <!-- Filters for Memberships -->
+            <div class="d-flex align-items-center gap-2">
+              <select class="form-select form-select-sm bg-light" id="filterSubStatusSelect" style="width: 170px;">
+                <option value="ALL">All Subscriptions</option>
+                <option value="Active">Active Only</option>
+                <option value="Expired">Expired / Due Only</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light text-muted small">
+                  <tr>
+                    <th class="ps-3">Sub ID</th>
+                    <th>Member Name</th>
+                    <th>Plan Type</th>
+                    <th>Start Date</th>
+                    <th>Expiration Date</th>
+                    <th>Plan Price (EGP)</th>
+                    <th class="pe-3">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="subscriptionsTableBody">
+                  <!-- Dynamically rendered via memberships.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Complete Payment History Logs -->
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-white border-0 py-3 d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div>
+              <h5 class="card-title fw-bold mb-0">Payment History & Transaction Ledger</h5>
+              <small class="text-muted">Official club receipts and financial logs</small>
+            </div>
+
+            <div class="d-flex align-items-center gap-2">
+              <div class="input-group input-group-sm" style="width: 250px;">
+                <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" class="form-control border-start-0 bg-light" id="paymentSearchInput" placeholder="Search member, ID, method...">
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0" id="paymentsTable">
+                <thead class="table-light text-muted small">
+                  <tr>
+                    <th class="ps-3">Receipt / TXN</th>
+                    <th>Member Name</th>
+                    <th>Description / Plan</th>
+                    <th>Amount Paid</th>
+                    <th>Payment Method</th>
+                    <th>Payment Date</th>
+                    <th class="pe-3 text-end">Ledger Status</th>
+                  </tr>
+                </thead>
+                <tbody id="paymentsTableBody">
+                  <!-- Dynamically rendered via memberships.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- App Footer -->
+      <footer class="app-footer">
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+          <span>&copy; 2026 <strong>Champions Sport Club</strong>. Financial & Membership Billing Module.</span>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- CREATE NEW SUBSCRIPTION MODAL -->
+  <div class="modal fade" id="subscriptionModal" tabindex="-1" aria-labelledby="subscriptionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title fw-bold" id="subscriptionModalLabel">
+            <i class="bi bi-plus-circle-fill me-2"></i> Create Member Subscription
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="subscriptionForm">
+          <div class="modal-body p-4">
+            <div class="row g-3">
+              <!-- Select Member -->
+              <div class="col-md-6">
+                <label for="subMemberSelect" class="form-label fw-semibold">Select Club Member *</label>
+                <select class="form-select" id="subMemberSelect" required>
+                  <!-- Populated from DB -->
+                </select>
+              </div>
+
+              <!-- Subscription Type / Duration -->
+              <div class="col-md-6">
+                <label for="subDurationSelect" class="form-label fw-semibold">Subscription Duration / Tier *</label>
+                <select class="form-select" id="subDurationSelect" required>
+                  <option value="Monthly">Monthly Membership (30 Days)</option>
+                  <option value="Quarterly">Quarterly Membership (3 Months)</option>
+                  <option value="Annually">Annual Membership (12 Months)</option>
+                  <option value="Activity-Specific">Activity-Specific Training Pass</option>
+                </select>
+              </div>
+
+              <!-- Plan Name / Sport Package -->
+              <div class="col-md-6">
+                <label for="subPlanNameInput" class="form-label fw-semibold">Membership Plan Title *</label>
+                <input type="text" class="form-control" id="subPlanNameInput" placeholder="e.g. Annual VIP All-Access or Monthly Swimming" required>
+              </div>
+
+              <!-- Fee in EGP -->
+              <div class="col-md-6">
+                <label for="subPriceInput" class="form-label fw-semibold">Plan Fee (EGP) *</label>
+                <input type="number" class="form-control" id="subPriceInput" min="100" step="50" placeholder="1500" required>
+              </div>
+
+              <!-- Start Date -->
+              <div class="col-md-6">
+                <label for="subStartDateInput" class="form-label fw-semibold">Start Date *</label>
+                <input type="date" class="form-control" id="subStartDateInput" required>
+              </div>
+
+              <!-- End Date -->
+              <div class="col-md-6">
+                <label for="subEndDateInput" class="form-label fw-semibold">Expiry Date *</label>
+                <input type="date" class="form-control" id="subEndDateInput" required>
+              </div>
+
+              <!-- Record Immediate Payment checkbox -->
+              <div class="col-12">
+                <div class="form-check form-switch p-3 bg-light rounded-3 border">
+                  <input class="form-check-input ms-0 me-2" type="checkbox" role="switch" id="autoRecordPaymentCheck" checked>
+                  <label class="form-check-label fw-semibold text-dark" for="autoRecordPaymentCheck">
+                    Automatically record payment transaction in financial ledger
+                  </label>
+                  <div class="small text-muted">Creates an official completed payment receipt for this subscription.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary px-4 fw-semibold">
+              <i class="bi bi-check-circle me-1"></i> Issue Subscription
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECORD PAYMENT MODAL -->
+  <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title fw-bold" id="paymentModalLabel">
+            <i class="bi bi-cash-stack me-2"></i> Record New Payment Transaction
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="recordPaymentForm">
+          <div class="modal-body p-4">
+            <div class="mb-3">
+              <label for="payMemberSelect" class="form-label fw-semibold">Select Member *</label>
+              <select class="form-select" id="payMemberSelect" required>
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="payDescriptionInput" class="form-label fw-semibold">Description / Plan *</label>
+              <input type="text" class="form-control" id="payDescriptionInput" placeholder="e.g. Monthly or Annually" required>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="payAmountInput" class="form-label fw-semibold">Amount (EGP) *</label>
+                <input type="number" class="form-control" id="payAmountInput" min="50" step="50" placeholder="1500" required>
+              </div>
+
+              <div class="col-md-6">
+                <label for="payMethodSelect" class="form-label fw-semibold">Payment Method *</label>
+                <select class="form-select" id="payMethodSelect" required>
+                  <option value="Cash">Cash</option>
+                  <option value="Visa Card">Visa Card</option>
+                  <option value="Mastercard">Mastercard</option>
+                  <option value="Meeza Card">Meeza Card (National)</option>
+                  <option value="Fawry Pay">Fawry Pay</option>
+                  <option value="Bank Transfer">Bank Transfer (NBE/CIB)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="payDateInput" class="form-label fw-semibold">Transaction Date *</label>
+              <input type="date" class="form-control" id="payDateInput" required>
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-success px-4 fw-semibold">
+              <i class="bi bi-check2-circle me-1"></i> Record & Generate Receipt
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- RENEW SUBSCRIPTION MODAL -->
+  <div class="modal fade" id="renewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-warning-subtle text-warning-emphasis">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-arrow-repeat me-2"></i> Renew Subscription
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 text-center">
+          <div class="display-5 text-warning mb-2"><i class="bi bi-arrow-clockwise"></i></div>
+          <h5 class="fw-bold mb-1" id="renewMemberNameText">Member Name</h5>
+          <p class="text-muted small mb-3">Extending subscription: <strong id="renewPlanText">Plan</strong></p>
+          <div class="alert alert-light border small text-start">
+            <div class="d-flex justify-content-between mb-1">
+              <span>Renewal Period:</span>
+              <strong class="text-dark">+30 Days / Standard Extension</strong>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span>New Status:</span>
+              <strong class="text-success">Active</strong>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer bg-light">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-warning px-4 fw-bold" id="confirmRenewBtn">
+            Confirm Renewal
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFFICIAL RECEIPT PREVIEW MODAL -->
+  <div class="modal fade" id="receiptModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title fw-bold"><i class="bi bi-receipt me-2"></i> Official Receipt</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4" id="receiptPrintArea">
+          <!-- Populated dynamically -->
+        </div>
+        <div class="modal-footer bg-light">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick="window.print()">
+            <i class="bi bi-printer me-1"></i> Print Receipt
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5.3.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Page Specific JavaScript -->
+  <script src="memberships.js"></script>
+</body>
+</html>

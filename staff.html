@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Champions Sport Club - Staff & Facilities</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <link rel="stylesheet" href="staff.css">
+</head>
+<body>
+
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1090;">
+    <div id="actionToast" class="toast align-items-center text-white border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2">
+          <i id="toastIcon" class="bi bi-check-circle-fill fs-5"></i>
+          <span id="toastMessage">Notification message</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <i class="bi bi-trophy-fill"></i>
+        </div>
+        <div class="brand-info">
+          <h5 class="brand-name">CHAMPIONS</h5>
+          <span class="brand-sub">Sport Club System</span>
+        </div>
+        <button class="btn btn-close-sidebar d-lg-none text-white ms-auto" id="closeSidebarBtn">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-menu-wrapper">
+        <p class="menu-label">MAIN NAVIGATION</p>
+        <ul class="sidebar-menu">
+          <li class="menu-item">
+            <a href="index.html" class="menu-link">
+              <i class="bi bi-grid-1x2-fill"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="members.html" class="menu-link">
+              <i class="bi bi-people-fill"></i>
+              <span>Members</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="activities.html" class="menu-link">
+              <i class="bi bi-dribbble"></i>
+              <span>Sports & Activities</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="memberships.html" class="menu-link">
+              <i class="bi bi-credit-card-2-front-fill"></i>
+              <span>Memberships & Payments</span>
+            </a>
+          </li>
+          <li class="menu-item active">
+            <a href="staff.html" class="menu-link">
+              <i class="bi bi-person-badge-fill"></i>
+              <span>Staff & Facilities</span>
+              <span class="badge bg-primary ms-auto" id="sidebarStaffBadge">0</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="p-3 mt-4 rounded-3 bg-dark-subtle text-white-50 small border border-secondary border-opacity-25">
+          <strong class="text-white d-block mb-1"><i class="bi bi-building-check text-info me-1"></i> Infrastructure</strong>
+          <span>Facilities and coaching personnel operations across the Cairo complex.</span>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-pill d-flex align-items-center gap-3">
+          <div class="avatar-circle">MA</div>
+          <div class="user-details overflow-hidden">
+            <p class="user-name mb-0 text-truncate">Mahmoud Al-Masry</p>
+            <span class="user-role text-truncate">Club General Director</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay d-lg-none" id="sidebarOverlay"></div>
+
+    <main class="app-main">
+      <header class="app-header">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-menu-toggle d-lg-none" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+            <i class="bi bi-list fs-4"></i>
+          </button>
+          <div class="page-title-box">
+            <h1 class="page-title mb-0">Staff & Facilities Management</h1>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="index.html">Champions Club</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Staff, Coaches & Venue Bookings</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+
+        <div class="header-actions d-flex align-items-center gap-2">
+          <button class="btn btn-light border text-dark d-flex align-items-center gap-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#facilityModal" id="openAddFacilityBtn">
+            <i class="bi bi-building-add"></i>
+            <span>Add Facility</span>
+          </button>
+
+          <button class="btn btn-primary d-flex align-items-center gap-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#staffModal" id="openAddStaffBtn">
+            <i class="bi bi-person-plus-fill"></i>
+            <span>Add Staff Member</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="app-body">
+        
+        <ul class="nav nav-pills custom-nav-pills mb-4" id="staffFacilitiesTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active d-flex align-items-center gap-2 px-4 py-2" id="staff-tab" data-bs-toggle="pill" data-bs-target="#staffPane" type="button" role="tab">
+              <i class="bi bi-people-fill"></i>
+              <span>Coaches & Administrative Staff</span>
+              <span class="badge bg-light text-dark ms-1" id="staffCountBadge">0</span>
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link d-flex align-items-center gap-2 px-4 py-2" id="facilities-tab" data-bs-toggle="pill" data-bs-target="#facilitiesPane" type="button" role="tab">
+              <i class="bi bi-building"></i>
+              <span>Facilities & Court Bookings</span>
+              <span class="badge bg-light text-dark ms-1" id="facilitiesCountBadge">0</span>
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="staffFacilitiesTabContent">
+          
+          <div class="tab-pane fade show active" id="staffPane" role="tabpanel">
+            
+            <div class="card border-0 shadow-sm mb-4">
+              <div class="card-body">
+                <div class="row g-3 align-items-center">
+                  <div class="col-md-5">
+                    <div class="input-group">
+                      <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
+                      <input type="text" class="form-control border-start-0 bg-light" id="staffSearchInput" placeholder="Search staff by name, role, email, phone...">
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <select class="form-select bg-light" id="staffDeptFilter">
+                      <option value="ALL">All Departments</option>
+                      <option value="Administration">Administration</option>
+                      <option value="Football">Football Coaching</option>
+                      <option value="Swimming">Swimming Coaching</option>
+                      <option value="Tennis">Tennis Coaching</option>
+                      <option value="Basketball">Basketball Coaching</option>
+                      <option value="Gym">Gym & Fitness</option>
+                      <option value="Yoga">Yoga & Wellness</option>
+                      <option value="Medical & Physio">Medical & Physio</option>
+                      <option value="Operations">Operations & Security</option>
+                    </select>
+                  </div>
+                  <div class="col-md-3 text-md-end">
+                    <span class="text-muted small" id="staffShowingLabel">Showing staff</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-4 mb-4" id="staffGrid">
+            </div>
+
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white border-0 py-3">
+                <h5 class="card-title fw-bold mb-0">Official Staff Roster Table</h5>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light text-muted small">
+                      <tr>
+                        <th class="ps-3">Staff ID</th>
+                        <th>Name & Title</th>
+                        <th>Department / Sport</th>
+                        <th>Shift Schedule</th>
+                        <th>Contact Phone</th>
+                        <th>Official Email</th>
+                        <th class="pe-3 text-end">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="staffTableBody">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="tab-pane fade" id="facilitiesPane" role="tabpanel">
+            
+            <div class="row g-3 mb-4" id="facilitiesCardsRow">
+            </div>
+
+            <div class="card border-0 shadow-sm mb-4">
+              <div class="card-header bg-white border-0 py-3 d-flex flex-wrap align-items-center justify-content-between gap-3">
+                <div>
+                  <h5 class="card-title fw-bold mb-0">Scheduled Facility Usage & Bookings</h5>
+                  <small class="text-muted">Pitch, court, pool and hall reservations</small>
+                </div>
+                <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#facilityBookingModal">
+                  <i class="bi bi-calendar-plus me-1"></i> New Booking
+                </button>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light text-muted small">
+                      <tr>
+                        <th class="ps-3">Booking ID</th>
+                        <th>Facility / Venue</th>
+                        <th>Organizer / Team / Member</th>
+                        <th>Booking Date</th>
+                        <th>Time Window</th>
+                        <th>Status</th>
+                        <th class="pe-3 text-end">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="bookingsTableBody">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-white border-0 py-3">
+                <h5 class="card-title fw-bold mb-0">Facilities Registry & Status Monitor</h5>
+                <small class="text-muted">Toggle between Available and Maintenance modes</small>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light text-muted small">
+                      <tr>
+                        <th class="ps-3">Code</th>
+                        <th>Facility Name</th>
+                        <th>Venue Type</th>
+                        <th>Location Sector</th>
+                        <th>Capacity</th>
+                        <th>Live Operational Status</th>
+                      </tr>
+                    </thead>
+                    <tbody id="facilitiesTableBody">
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <footer class="app-footer">
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+          <span>&copy; 2026 <strong>Champions Sport Club</strong>. Staff & Facilities Module.</span>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <div class="modal fade" id="staffModal" tabindex="-1" aria-labelledby="staffModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title fw-bold" id="staffModalLabel">
+            <i class="bi bi-person-plus-fill me-2"></i> Register Staff / Coach
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="staffForm">
+          <div class="modal-body p-4">
+            <input type="hidden" id="staffIdInput">
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="staffNameInput" class="form-label fw-semibold">Staff Full Name (English) *</label>
+                <input type="text" class="form-control" id="staffNameInput" placeholder="e.g. Capt. Hossam Ashour, Dr. Hazem Emam" required>
+              </div>
+
+              <div class="col-md-6">
+                <label for="staffRoleInput" class="form-label fw-semibold">Job Title / Role *</label>
+                <input type="text" class="form-control" id="staffRoleInput" placeholder="e.g. Head Football Coach, Fitness Trainer" required>
+              </div>
+
+              <div class="col-md-6">
+                <label for="staffDeptSelect" class="form-label fw-semibold">Department / Sport *</label>
+                <select class="form-select" id="staffDeptSelect" required>
+                  <option value="Football">Football Coaching</option>
+                  <option value="Swimming">Swimming Coaching</option>
+                  <option value="Tennis">Tennis Coaching</option>
+                  <option value="Basketball">Basketball Coaching</option>
+                  <option value="Gym">Gym & Fitness</option>
+                  <option value="Yoga">Yoga & Wellness</option>
+                  <option value="Administration">Administration</option>
+                  <option value="Medical & Physio">Medical & Physio</option>
+                  <option value="Operations">Operations & Security</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label for="staffShiftInput" class="form-label fw-semibold">Working Shift *</label>
+                <input type="text" class="form-control" id="staffShiftInput" placeholder="e.g. Morning Shift, Evening Shift, Full Time" required>
+              </div>
+
+              <div class="col-md-6">
+                <label for="staffPhoneInput" class="form-label fw-semibold">Contact Phone (+20) *</label>
+                <input type="tel" class="form-control" id="staffPhoneInput" placeholder="+20 100 222 3333" required>
+              </div>
+
+              <div class="col-md-6">
+                <label for="staffEmailInput" class="form-label fw-semibold">Official Club Email *</label>
+                <input type="email" class="form-control" id="staffEmailInput" placeholder="h.ashour@champions-club.eg" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary px-4 fw-semibold">
+              <i class="bi bi-check-lg me-1"></i> Save Staff Profile
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="facilityModal" tabindex="-1" aria-labelledby="facilityModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title fw-bold" id="facilityModalLabel">
+            <i class="bi bi-building-add me-2"></i> Register Club Facility
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="facilityForm">
+          <div class="modal-body p-4">
+            <div class="mb-3">
+              <label for="facilityNameInput" class="form-label fw-semibold">Facility Name *</label>
+              <input type="text" class="form-control" id="facilityNameInput" placeholder="e.g. Olympic Pool 2, Squash Court A" required>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="facilityTypeSelect" class="form-label fw-semibold">Facility Type *</label>
+                <select class="form-select" id="facilityTypeSelect" required>
+                  <option value="Football Pitch">Football Pitch</option>
+                  <option value="Swimming Pool">Swimming Pool</option>
+                  <option value="Tennis Court">Tennis Court</option>
+                  <option value="Basketball Arena">Basketball Arena</option>
+                  <option value="Gym">Gym & Fitness Hall</option>
+                  <option value="Yoga Studio">Yoga Studio</option>
+                  <option value="Squash Court">Squash Court</option>
+                  <option value="Spa / Recovery">Spa / Recovery</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="facilityCapacityInput" class="form-label fw-semibold">Max Capacity *</label>
+                <input type="number" class="form-control" id="facilityCapacityInput" min="2" max="500" placeholder="40" required>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="facilityLocationInput" class="form-label fw-semibold">Complex Sector / Location *</label>
+              <input type="text" class="form-control" id="facilityLocationInput" placeholder="e.g. North Pavilion Floor 2" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="facilityStatusSelect" class="form-label fw-semibold">Operational Status *</label>
+              <select class="form-select" id="facilityStatusSelect" required>
+                <option value="Available">Available for Use</option>
+                <option value="Maintenance">Under Scheduled Maintenance</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary px-4 fw-semibold">
+              <i class="bi bi-check-circle me-1"></i> Save Facility
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="facilityBookingModal" tabindex="-1" aria-labelledby="facilityBookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title fw-bold" id="facilityBookingModalLabel">
+            <i class="bi bi-calendar-event me-2"></i> Schedule Facility / Court Booking
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="facilityBookingForm">
+          <div class="modal-body p-4">
+            <div class="mb-3">
+              <label for="bookingFacilitySelect" class="form-label fw-semibold">Select Facility / Court *</label>
+              <select class="form-select" id="bookingFacilitySelect" required>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="bookingOrganizerInput" class="form-label fw-semibold">Organizer / Team / Member *</label>
+              <input type="text" class="form-control" id="bookingOrganizerInput" placeholder="e.g. Football Academy Match, Capt. Hossam Ashour" required>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="bookingDateInput" class="form-label fw-semibold">Booking Date *</label>
+                <input type="date" class="form-control" id="bookingDateInput" required>
+              </div>
+
+              <div class="col-md-6">
+                <label for="bookingTimeInput" class="form-label fw-semibold">Time Slot *</label>
+                <input type="text" class="form-control" id="bookingTimeInput" placeholder="e.g. 17:00 - 19:00" required>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary px-4 fw-semibold">
+              <i class="bi bi-calendar-check me-1"></i> Confirm Booking
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="deleteStaffModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-0 shadow-lg text-center p-3">
+        <div class="modal-body">
+          <div class="text-danger mb-3">
+            <i class="bi bi-person-x-fill display-4"></i>
+          </div>
+          <h5 class="fw-bold mb-2">Delete Staff Record?</h5>
+          <p class="text-muted small mb-3">
+            Are you sure you want to delete <strong id="deleteStaffNameText"></strong>?
+          </p>
+          <div class="d-flex justify-content-center gap-2">
+            <button type="button" class="btn btn-light px-3" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger px-3" id="confirmDeleteStaffBtn">Yes, Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="staff.js"></script>
+</body>
+</html>
+

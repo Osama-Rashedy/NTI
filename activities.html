@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Champions Sport Club - Sports & Activities</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <link rel="stylesheet" href="activities.css">
+</head>
+<body>
+
+  <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1090;">
+    <div id="actionToast" class="toast align-items-center text-white border-0 shadow-lg" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body d-flex align-items-center gap-2">
+          <i id="toastIcon" class="bi bi-check-circle-fill fs-5"></i>
+          <span id="toastMessage">Notification message</span>
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-layout">
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-brand">
+        <div class="brand-logo">
+          <i class="bi bi-trophy-fill"></i>
+        </div>
+        <div class="brand-info">
+          <h5 class="brand-name">CHAMPIONS</h5>
+          <span class="brand-sub">Sport Club System</span>
+        </div>
+        <button class="btn btn-close-sidebar d-lg-none text-white ms-auto" id="closeSidebarBtn">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-menu-wrapper">
+        <p class="menu-label">MAIN NAVIGATION</p>
+        <ul class="sidebar-menu">
+          <li class="menu-item">
+            <a href="index.html" class="menu-link">
+              <i class="bi bi-grid-1x2-fill"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="members.html" class="menu-link">
+              <i class="bi bi-people-fill"></i>
+              <span>Members</span>
+            </a>
+          </li>
+          <li class="menu-item active">
+            <a href="activities.html" class="menu-link">
+              <i class="bi bi-dribbble"></i>
+              <span>Sports & Activities</span>
+              <span class="badge bg-primary ms-auto" id="sidebarActivitiesBadge">6</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="memberships.html" class="menu-link">
+              <i class="bi bi-credit-card-2-front-fill"></i>
+              <span>Memberships & Payments</span>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="staff.html" class="menu-link">
+              <i class="bi bi-person-badge-fill"></i>
+              <span>Staff & Facilities</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="p-3 mt-4 rounded-3 bg-dark-subtle text-white-50 small border border-secondary border-opacity-25">
+          <strong class="text-white d-block mb-1"><i class="bi bi-award-fill text-warning me-1"></i> Core Sports</strong>
+          <span>Football, Basketball, Swimming, Tennis, Gym, and Yoga.</span>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-pill d-flex align-items-center gap-3">
+          <div class="avatar-circle">MA</div>
+          <div class="user-details overflow-hidden">
+            <p class="user-name mb-0 text-truncate">Mahmoud Al-Masry</p>
+            <span class="user-role text-truncate">Club General Director</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="sidebar-overlay d-lg-none" id="sidebarOverlay"></div>
+
+    <main class="app-main">
+      <header class="app-header">
+        <div class="d-flex align-items-center gap-3">
+          <button class="btn btn-menu-toggle d-lg-none" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+            <i class="bi bi-list fs-4"></i>
+          </button>
+          <div class="page-title-box">
+            <h1 class="page-title mb-0">Sports & Activities</h1>
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="index.html">Champions Club</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Activities & Training Programs</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+
+        <div class="header-actions d-flex align-items-center gap-2">
+          <button class="btn btn-primary d-flex align-items-center gap-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#activityModal" id="openAddActivityBtn">
+            <i class="bi bi-plus-circle-fill"></i>
+            <span>Add New Activity</span>
+          </button>
+        </div>
+      </header>
+
+      <div class="app-body">
+        
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+          <div class="sports-filter-pills d-flex flex-wrap gap-2" id="sportCategoryFilters">
+            <button class="btn btn-sm btn-dark active" data-filter="ALL">All Sports (6)</button>
+            <button class="btn btn-sm btn-outline-secondary" data-filter="Football"><i class="bi bi-dribbble text-warning me-1"></i>Football</button>
+            <button class="btn btn-sm btn-outline-secondary" data-filter="Basketball"><i class="bi bi-circle text-danger me-1"></i>Basketball</button>
+            <button class="btn btn-sm btn-outline-secondary" data-filter="Swimming"><i class="bi bi-water text-primary me-1"></i>Swimming</button>
+            <button class="btn btn-sm btn-outline-secondary" data-filter="Tennis"><i class="bi bi-trophy text-success me-1"></i>Tennis</button>
+            <button class="btn btn-sm btn-outline-secondary" data-filter="Gym"><i class="bi bi-activity text-info me-1"></i>Gym</button>
+            <button class="btn btn-sm btn-outline-secondary" data-filter="Yoga"><i class="bi bi-peace text-secondary me-1"></i>Yoga</button>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <div class="input-group input-group-sm" style="width: 240px;">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+              <input type="text" class="form-control border-start-0" id="activitySearchInput" placeholder="Search activities or coaches...">
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 mb-5" id="activitiesGrid">
+        </div>
+
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-white border-0 py-3 d-flex align-items-center justify-content-between">
+            <div>
+              <h5 class="card-title fw-bold mb-0">Activities Master Schedule & Capacity Table</h5>
+              <small class="text-muted">Assigned coaches, training facilities, and enrollment caps</small>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light text-muted small">
+                  <tr>
+                    <th class="ps-3">Code / Sport</th>
+                    <th>Activity Program Name</th>
+                    <th>Assigned Head Coach</th>
+                    <th>Venue / Facility</th>
+                    <th>Weekly Schedule & Timings</th>
+                    <th>Capacity & Enrolled</th>
+                    <th>Monthly Fee</th>
+                    <th class="pe-3 text-end">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="activitiesTableBody">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <footer class="app-footer">
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+          <span>&copy; 2026 <strong>Champions Sport Club</strong>. Sports & Activities Module.</span>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <div class="modal fade" id="activityModal" tabindex="-1" aria-labelledby="activityModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title fw-bold" id="activityModalLabel">
+            <i class="bi bi-plus-circle-fill me-2"></i> Add Sports Activity Program
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="activityForm">
+          <div class="modal-body p-4">
+            <input type="hidden" id="activityIdInput">
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="activitySportSelect" class="form-label fw-semibold">Sport Category *</label>
+                <select class="form-select" id="activitySportSelect" required>
+                  <option value="Football">Football (Soccer)</option>
+                  <option value="Basketball">Basketball</option>
+                  <option value="Swimming">Swimming</option>
+                  <option value="Tennis">Tennis</option>
+                  <option value="Gym">Gym & Conditioning</option>
+                  <option value="Yoga">Yoga & Wellness</option>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label for="activityNameInput" class="form-label fw-semibold">Activity / Program Title *</label>
+                <input type="text" class="form-control" id="activityNameInput" placeholder="e.g. Junior Football Champions League" required>
+              </div>
+
+              <div class="col-md-6">
+                <label for="activityCoachSelect" class="form-label fw-semibold">Assign Head Coach *</label>
+                <select class="form-select" id="activityCoachSelect" required>
+                </select>
+              </div>
+
+              <div class="col-md-6">
+                <label for="activityFacilitySelect" class="form-label fw-semibold">Assign Facility / Venue *</label>
+                <select class="form-select" id="activityFacilitySelect" required>
+                </select>
+              </div>
+
+              <div class="col-md-8">
+                <label for="activityScheduleInput" class="form-label fw-semibold">Training Schedule & Timings *</label>
+                <input type="text" class="form-control" id="activityScheduleInput" placeholder="e.g. Mon, Wed, Fri (17:00 - 19:00)" required>
+              </div>
+
+              <div class="col-md-4">
+                <label for="activityFeeInput" class="form-label fw-semibold">Monthly Fee (EGP) *</label>
+                <input type="number" class="form-control" id="activityFeeInput" min="0" step="50" placeholder="1200" required>
+              </div>
+
+              <div class="col-md-4">
+                <label for="activityCapacityInput" class="form-label fw-semibold">Max Member Capacity *</label>
+                <input type="number" class="form-control" id="activityCapacityInput" min="5" max="200" placeholder="30" required>
+              </div>
+
+              <div class="col-md-4">
+                <label for="activityEnrolledInput" class="form-label fw-semibold">Initial Enrolled Count</label>
+                <input type="number" class="form-control" id="activityEnrolledInput" min="0" value="0">
+              </div>
+
+              <div class="col-md-4">
+                <label for="activityAgeGroupInput" class="form-label fw-semibold">Age Group / Level</label>
+                <input type="text" class="form-control" id="activityAgeGroupInput" placeholder="e.g. Youth (12-18), Adults">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary px-4 fw-semibold">
+              <i class="bi bi-check-lg me-1"></i> Save Activity Program
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="enrollMemberModal" tabindex="-1" aria-labelledby="enrollMemberModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title fw-bold" id="enrollMemberModalLabel">
+            <i class="bi bi-person-check-fill me-2"></i> Register Member In Activity
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="enrollMemberForm">
+          <div class="modal-body p-4">
+            <div class="mb-3">
+              <label for="enrollMemberSelect" class="form-label fw-semibold">Select Club Member *</label>
+              <select class="form-select" id="enrollMemberSelect" required>
+              </select>
+              <div class="form-text">Choose from active club members.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="enrollActivitySelect" class="form-label fw-semibold">Select Sports Activity Program *</label>
+              <select class="form-select" id="enrollActivitySelect" required>
+              </select>
+            </div>
+
+            <div class="alert alert-light border small text-muted mb-0">
+              <i class="bi bi-info-circle-fill text-primary me-1"></i>
+              Enrolling the member will update their primary sport profile and adjust activity capacity.
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-success px-4 fw-semibold">
+              <i class="bi bi-check-circle me-1"></i> Confirm Registration
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="rosterModal" tabindex="-1" aria-labelledby="rosterModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title fw-bold" id="rosterModalLabel">
+            <i class="bi bi-people-fill me-2"></i> Enrolled Members Roster
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="fw-bold mb-0" id="rosterActivityName">Activity</h5>
+              <span class="text-muted small" id="rosterActivityDetails">Coach & Facility</span>
+            </div>
+            <span class="badge bg-primary fs-6 px-3 py-2" id="rosterCountBadge">0 Enrolled</span>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light small">
+                <tr>
+                  <th>Member ID</th>
+                  <th>Member Name</th>
+                  <th>Phone Number</th>
+                  <th>Address</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="rosterTableBody">
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer bg-light">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close Roster</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="deleteActivityModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-0 shadow-lg text-center p-3">
+        <div class="modal-body">
+          <div class="text-danger mb-3">
+            <i class="bi bi-exclamation-triangle-fill display-4"></i>
+          </div>
+          <h5 class="fw-bold mb-2">Delete Activity?</h5>
+          <p class="text-muted small mb-3">
+            Are you sure you want to delete <strong id="deleteActivityNameText"></strong>? This cannot be undone.
+          </p>
+          <div class="d-flex justify-content-center gap-2">
+            <button type="button" class="btn btn-light px-3" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-danger px-3" id="confirmDeleteActivityBtn">Yes, Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script src="activities.js"></script>
+</body>
+</html>
+
